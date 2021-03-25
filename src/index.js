@@ -19,15 +19,23 @@ const defaultCallbacks = {
   acceptableDocuments: (supportedCountry, supportedDocs) => {
     if (supportedCountry.length > 0 && supportedDocs.length > 0) {
       return (supportedDocuments) => supportedDocuments
-        .filter(({ country, documentTypes }) => supportedCountry.includes(country.toLowerCase())
-        && supportedDocs.includes(documentTypes));
+        .filter(({ country }) => supportedCountry.includes(country.toLowerCase()))
+        .map(({ country, documentTypes }) => ({
+          country,
+          documentTypes: documentTypes
+            .filter((v) => supportedDocs.includes(v)),
+        }));
     }
     if (supportedCountry.length > 0 && supportedDocs.length === 0) {
       return (supportedDocuments) => supportedDocuments
         .filter(({ country }) => supportedCountry.includes(country.toLowerCase()));
     }
     return (supportedDocuments) => supportedDocuments
-      .filter(({ documentTypes }) => supportedDocs.includes(documentTypes));
+      .map(({ country, documentTypes }) => ({
+        country,
+        documentTypes: documentTypes
+          .filter((v) => supportedDocs.includes(v)),
+      }));
   },
 };
 const enrichBySpecialKey = {
