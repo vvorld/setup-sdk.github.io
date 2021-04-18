@@ -6,6 +6,81 @@ const defaultOptions = {
   sdkKey: '',
   flowName: 'sdk-v6',
 };
+const defaultV5fields = [
+  {
+    label: 'First Name',
+    type: 'text',
+    name: 'First name',
+    required: false,
+    value: '',
+    mask: {
+      regexp: '^[a-zA-Z0-9 ]+$',
+      translate: 'Form_only_latin',
+      message: 'Only latin symbols',
+    },
+  },
+  {
+    label: 'Last Name',
+    type: 'text',
+    name: 'Last name',
+    required: false,
+    value: '',
+    mask: {
+      regexp: '^[a-zA-Z0-9 ]+$',
+      translate: 'Form_only_latin',
+      message: 'Only latin symbols',
+    },
+  },
+
+  {
+    label: 'Date Of Birth',
+    type: 'date',
+    name: 'Date of birth',
+    required: true,
+  },
+  {
+    label: 'Select example',
+    type: 'select',
+    options: [
+      { name: 'H11', val: '11', translate: 'select_1' },
+      { name: 'H22', val: '22', translate: 'select_2' },
+    ],
+    name: 'select example',
+    required: false,
+  },
+  {
+    type: 'file',
+    name: 'Test field file',
+    required: false,
+  },
+  {
+    label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
+    translate: 'consent',
+    type: 'consent',
+    name: 'privacy1',
+  },
+];
+
+const defaultV5Flow = [
+  {
+    component: 'DocumentPhoto',
+    showRules: true,
+    interactive: true,
+    enableCheckPhoto: true,
+    country: 'ee',
+    documentType: 'id-card',
+  },
+  {
+    component: 'Form',
+  },
+  {
+    component: 'Record',
+    phrases: ['My name is...', 'I would like to receive a certificate...'],
+  },
+  { component: 'Liveness' },
+  { component: 'Selfie', showRules: true, enableCheckPhoto: true },
+  { component: 'ThankYou' },
+];
 const defaultCallbacks = {
   onComplete(dataOnComplete) {
     console.log('onComplete', dataOnComplete);
@@ -63,7 +138,7 @@ const getMetadataFromForm = (formNodes) => {
 };
 const getProfileFromForm = (formNodes) => {
   const profileNode = formNodes.find(({ id }) => id === 'profile');
-  if (!profileNode.checked) {
+  if (!profileNode || !profileNode.checked) {
     return [];
   }
   return formNodes.filter(({ name }) => name.startsWith('profile_')).map(({ name, value }) => {
@@ -123,6 +198,45 @@ document.querySelector('#form-setting').addEventListener('submit', (event) => {
   console.log('initConfig', initConfig);
   const initCallback = () => window.getidWebSdk.init(initConfig);
   loadSdkScript([...formResult].find(({ id }) => id === 'sdkVersion')?.value || 'v6', initCallback);
+});
+
+document.querySelector('#v5-form-setting').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const { target } = event;
+  const formResult = [...target].filter(({ value }) => value);
+  const formFields = formResult.filter(({ name, checked }) => name === 'fields' && checked === true).map(({ id }) => id);
+  const normalizedFields = defaultV5fields.filter(({ name }) => formFields.includes(name));
+  const flowFromForm = formResult.filter(({ name, checked }) => name === 'flows' && checked === true).map(({ id }) => id);
+  const normalizedFlow = defaultV5Flow.reduce((acc, component) => {
+    if (flowFromForm.includes(component.component)) {
+      if (component.component !== 'Form') {
+        return [...acc, component];
+      }
+      return [...acc, { ...component, fields: normalizedFields }];
+    }
+    return acc;
+  }, []);
+  const callbacksForm = formResult.filter(({ name, checked }) => name === 'callback' && checked === true).map(({ id }) => id);
+  const callBacks = callbacksForm
+    // eslint-disable-next-line max-len
+    .reduce((acc, callbackName) => ({ ...acc, [callbackName]: defaultCallbacks[callbackName] }), {});
+
+  const apiUrl = document.querySelector('#apiUrl-v5').value;
+  const sdkKey = document.querySelector('#sdkKey-v5').value;
+  const sdkVersion = document.querySelector('#sdkVersion-v5').value;
+  const verificationTypes = ['data-extraction'];
+  if (flowFromForm.includes('Selfie')) {
+    verificationTypes.push('face-matching');
+  }
+  if (flowFromForm.includes('Liveness')) {
+    verificationTypes.push('liveness');
+  }
+  const initConfig = {
+    ...callBacks, flow: normalizedFlow, apiUrl, containerId: 'getid-component', verificationTypes,
+  };
+  console.log('initConfig', initConfig);
+  const initCallback = () => window.getidWebSdk.init(initConfig, sdkKey);
+  loadSdkScript(sdkVersion || 'v5', initCallback);
 });
 
 const profileCheckbox = document.querySelector('#profile');

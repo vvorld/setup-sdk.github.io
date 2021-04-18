@@ -35,11 +35,11 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="collapse show" id="flowCollapse">
-                      <form action="/4/config" method="POST">
+                      <form id="v5-form-setting">
                         <div class="row mb-2">
-                            <div class="col"><label class="form-check-label ml-2" for="apiUrl">API URL</label><input class="form-control" id="apiUrlV5" type="text" placeholder="apiUrl" name="apiUrl" value=""></div>
-                            <div class="col"><label class="form-check-label ml-2" for="sdkKey">SDK KEY</label><input class="form-control" id="sdkKeyV5" type="text" placeholder="sdkKey" name="sdkKey" value=""></div>
-                            <div class="col"><label class="form-check-label ml-2" for="sdkVersion">sdk script version</label><input class="form-control" id="sdkVersionV5" type="text" placeholder="sdkVersion" name="sdkVersion" value="v5">
+                            <div class="col"><label class="form-check-label ml-2" for="apiUrl-v5">API URL</label><input class="form-control" id="apiUrl-v5" type="text" placeholder="apiUrl" name="apiUrl" value=""></div>
+                            <div class="col"><label class="form-check-label ml-2" for="sdkKey-v5">SDK KEY</label><input class="form-control" id="sdkKey-v5" type="text" placeholder="sdkKey" name="sdkKey" value=""></div>
+                            <div class="col"><label class="form-check-label ml-2" for="sdkVersion-v5">sdk script version</label><input class="form-control" id="sdkVersion-v5" type="text" placeholder="sdkVersion" name="sdkVersion" value="v5">
                                 <div class="invalid-feedback">Can not load the script</div>
                             </div>
                         </div>
@@ -47,28 +47,6 @@
                           <div class="col-6">
                             <div class="card card-body">
                               <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline">
-                                      <input
-                                        class="form-check-input"
-                                        id="Consent"
-                                        type="checkbox"
-                                        name="flows"
-                                        value="Consent"
-                                      /><label class="form-check-label lb-sm" for="Consent">Consent</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline">
-                                      <input
-                                        class="form-check-input"
-                                        id="Consent"
-                                        type="checkbox"
-                                        name="flows"
-                                        value="Consent"
-                                      /><label class="form-check-label lb-sm" for="Consent">Consent</label>
-                                    </div>
-                                </div>
                                 <div class="col-6">
                                   <div class="form-check form-check-inline">
                                     <input
@@ -85,11 +63,11 @@
                                   <div class="form-check form-check-inline">
                                     <input
                                       class="form-check-input"
-                                      id="selfie"
+                                      id="Selfie"
                                       type="checkbox"
                                       name="flows"
                                       value="selfie"
-                                    /><label class="form-check-label" for="selfie"
+                                    /><label class="form-check-label" for="Selfie"
                                       >selfie</label
                                     >
                                   </div>
@@ -123,7 +101,7 @@
                                     class="form-check-input"
                                     id="onComplete"
                                     type="checkbox"
-                                    name="flows"
+                                    name="callback"
                                     value="onComplete"
                                   /><label class="form-check-label lb-sm" for="onComplete">onComplete</label>
                                 </div>
@@ -134,20 +112,9 @@
                                     class="form-check-input"
                                     id="onFail"
                                     type="checkbox"
-                                    name="flows"
+                                    name="callback"
                                     value="onFail"
                                   /><label class="form-check-label lb-sm" for="onFail">onFail</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-check form-check-inline">
-                                  <input
-                                    class="form-check-input"
-                                    id="onSortDocuments"
-                                    type="checkbox"
-                                    name="flows"
-                                    value="onSortDocuments"
-                                  /><label class="form-check-label lb-sm" for="onSortDocuments">onSortDocuments</label>
                                 </div>
                             </div>
                                 <div class="col-6">
@@ -159,13 +126,24 @@
                                       name="flows"
                                       value="ThankYou"
                                       checked=""
-                                    /><label class="form-check-label" for="ThankYou"
-                                      >ThankYou</label
+                                    /><label class="form-check-label" for="ThankYou">ThankYou</label
                                     >
                                 </div>
                               </div>
+                              <div class="col-6">
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    id="Record"
+                                    type="checkbox"
+                                    name="flows"
+                                    value="Record"
+                                    checked=""
+                                  /><label class="form-check-label" for="Record">Record</label
+                                  >
                               </div>
-                              <div class="row"><div class="col-6 ml-auto mt-2"></div></div>
+                            </div>
+                              </div>
                             </div>
                           </div>
                           <div class="col">
@@ -175,59 +153,75 @@
                                   <div class="form-check form-check-inline">
                                     <input
                                       class="form-check-input"
-                                      id="firstName"
+                                      id="First name"
                                       type="checkbox"
                                       name="fields"
                                       value="First name"
                                       checked=""
-                                    /><label class="form-check-label lb-sm" for="firstName"
+                                    /><label class="form-check-label lb-sm" for="First name"
                                       >First Name</label
                                     >
                                   </div>
                                 </div>
                                 <div class="col-6">
-                                  <div class="form-check form-check-inline">
-                                    <input
-                                      class="form-check-input"
-                                      id="lastName"
-                                      type="checkbox"
-                                      name="fields"
-                                      value="Last name"
-                                      checked=""
-                                    /><label class="form-check-label" for="lastName"
-                                      >Last Name</label
-                                    >
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-6">
-                                  <div class="form-check form-check-inline">
-                                    <input
-                                      class="form-check-input"
-                                      id="email"
-                                      type="checkbox"
-                                      name="fields"
-                                      value="Email"
-                                    /><label class="form-check-label" for="email"
-                                      >Email</label
-                                    >
-                                  </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            id="Last name"
+                                            type="checkbox"
+                                            name="fields"
+                                            value="Last name"
+                                            checked=""
+                                        /><label class="form-check-label" for="Last name">Last Name</label>
+                                    </div>
                                 </div>
                                 <div class="col-6">
-                                  <div class="form-check form-check-inline">
-                                    <input
-                                      class="form-check-input"
-                                      id="dob"
-                                      type="checkbox"
-                                      name="fields"
-                                      value="Date of birth"
-                                    /><label class="form-check-label" for="dob">DOB</label>
-                                  </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            id="Date of birth"
+                                            type="checkbox"
+                                            name="fields"
+                                            value="Date of birth"
+                                        /><label class="form-check-label" for="Date of birth">DOB</label>
+                                    </div>
                                 </div>
-                              </div>
+                                <div class="col-6">
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            id="Test field file"
+                                            type="checkbox"
+                                            name="fields"
+                                            value="Test field file"
+                                        /><label class="form-check-label" for="Test field file">add file</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            id="select example"
+                                            type="checkbox"
+                                            name="fields"
+                                            value="select example"
+                                        /><label class="form-check-label" for="select example">test select</label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check form-check-inline">
+                                      <input
+                                        class="form-check-input"
+                                        id="privacy1"
+                                        type="checkbox"
+                                        name="fields"
+                                        value="privacy1"
+                                      /><label class="form-check-label lb-sm" for="privacy1">consent</label>
+                                    </div>
+                                </div>
                             </div>
                           </div>
+                        </div>
                         </div>
                         <div class="row">
                           <div class="col-4 mx-auto mt-3">
@@ -298,7 +292,7 @@
                                               <div class="button-group"><button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><span>supported documents</span></button>
                                                   <ul class="dropdown-menu checkbox-menu allow-focus">
                                                       <li class="ml-2"><input id="supportedDocs_idCard" type="checkbox" name="supportedDocs_idCard" value="true"><label for="supportedDocs_idCard">&nbsp; ID-CARD</label></li>
-                                                      <li class="ml-2"><input id="supportedDocs_driverLicense" type="checkbox" name="supportedDocs_driverLicense" value="true"><label for="supportedDocs_driverLicense">&nbsp; DRIVER-LICENSE</label></li>
+                                                      <li class="ml-2"><input id="supportedDocs_drivingLicence" type="checkbox" name="supportedDocs_drivingLicence" value="true"><label for="supportedDocs_drivingLicence">&nbsp; DRIVING-LICENCE</label></li>
                                                       <li class="ml-2"><input id="supportedDocs_passport" type="checkbox" name="supportedDocs_passport" value="true"><label for="supportedDocs_passport">&nbsp; PASSPORT</label></li>
                                                   </ul>
                                               </div>
