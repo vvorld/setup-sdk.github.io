@@ -216,7 +216,7 @@ document.querySelector('#v5-form-setting').addEventListener('submit', (event) =>
     }
     return acc;
   }, []);
-  const callbacksForm = formResult.filter(({ name, checked }) => name === 'callback' && checked === true).map(({ id }) => id);
+  const callbacksForm = formResult.filter(({ name, checked }) => name === 'callback' && checked === true).map(({ value }) => value);
   const callBacks = callbacksForm
     // eslint-disable-next-line max-len
     .reduce((acc, callbackName) => ({ ...acc, [callbackName]: defaultCallbacks[callbackName] }), {});
