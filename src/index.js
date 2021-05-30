@@ -164,6 +164,14 @@ const getProfileFromForm = (formNodes) => {
     return { category, value };
   });
 };
+
+const getCustomStylesFromForm = (formNodes) => {
+  const stylesNode = formNodes.find(({ id }) => id === 'styles');
+  if (!stylesNode || !stylesNode.checked) return {};
+  console.log('formNodes', formNodes);
+  return formNodes.filter(({ name, value }) => name.startsWith('--getid-') && value)
+    .reduce((acc, { name, value }) => ({ ...acc, [name]: value }), {});
+};
 const patchConfigAcceptableDocuments = (config, formNodes) => {
   const supportedCountry = formNodes.reduce((acc, node) => {
     if (!node.id.startsWith('supportedCountry') || !node.checked) return acc;
@@ -219,7 +227,10 @@ document.querySelector('#form-setting').addEventListener('submit', (event) => {
   }, defaultOptions);
   const metadata = getMetadataFromForm(formResult);
   const profile = getProfileFromForm(formResult);
-  const initConfig = { ...patchConfigAcceptableDocuments(config, formResult), metadata, profile };
+  const styles = getCustomStylesFromForm(formResult);
+  const initConfig = {
+    ...patchConfigAcceptableDocuments(config, formResult), metadata, profile, styles,
+  };
   console.log('initConfig', initConfig);
   const initCallback = () => window.getidWebSdk.init(initConfig);
   loadSdkScript([...formResult].find(({ id }) => id === 'sdkVersion')?.value || 'v6', initCallback);
