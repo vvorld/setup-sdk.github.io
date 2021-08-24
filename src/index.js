@@ -196,7 +196,7 @@ const patchConfigAcceptableDocuments = (config, formNodes) => {
   };
 };
 const configKeys = new Set([
-  'containerId', 'locale', 'apiUrl', 'sdkKey', 'flowName', 'customerId', 'jwt', 'injectCSS', 'styles', 'dictionary',
+  'containerId', 'locale', 'apiUrl', 'sdkKey', 'flowName', 'customerId', 'jwt', 'injectCSS', 'styles', 'dictionary', 'customLogoUrl',
 ]);
 const loadSdkScript = (sdkVersion, cb) => {
   const script = document.createElement('script');
